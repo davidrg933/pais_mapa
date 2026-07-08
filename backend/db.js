@@ -1,9 +1,16 @@
 const Database = require("better-sqlite3");
 const path = require("path");
+const fs = require("fs"); // Añadimos esto para manejar archivos
 
-// Usamos process.env.DB_PATH si existe (para Render),
-// si no, usamos la ruta local (para tu desarrollo en local)
+// Ruta donde guardaremos la DB
 const dbPath = process.env.DB_PATH || path.join(__dirname, "data.db");
+
+// --- NUEVO: Crear el directorio si no existe ---
+const dir = path.dirname(dbPath);
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir, { recursive: true });
+}
+// -----------------------------------------------
 
 const db = new Database(dbPath);
 
